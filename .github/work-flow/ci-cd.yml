@@ -1,0 +1,33 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  # CI PART 🔵
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code edukanum
+        uses: actions/checkout@v3
+
+      - name: Python setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install pannanum
+        run: pip install -r requirements.txt
+
+      - name: Tests run pannanum
+        run: pytest
+
+  # CD PART 🟢
+  deploy:
+    needs: test        # test pass aana mattum deploy!
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
