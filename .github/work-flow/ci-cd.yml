@@ -25,9 +25,9 @@ jobs:
 
   # CD PART 🟢
   deploy:
-    needs: test        # test pass aana mattum deploy!
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Render
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
